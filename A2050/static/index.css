@@ -1,0 +1,43 @@
+div{
+  display:inline-block;
+  margin:10px;
+}
+
+.board{
+  border:2px solid gray;
+  table-layout: fixed;
+  display: inline-block;
+}
+
+.board td{
+  background-color: white;
+  vertical-align: middle;
+  text-align: center;
+  border: 2px solid black;
+  font-size: 40px;
+  width: 100px;
+  height:100px;
+  overflow: hidden;
+}
+
+#scores{
+  position:fixed;
+  top:0px;
+  right:0px;
+  background-color: lightgray;
+}
+
+#scores table{
+  border: black 2px solid;
+  table-layout: fixed;
+}
+
+#scores td{
+  border: black 2px solid;
+  width:120px;
+  height:30px;
+}
+
+.my{
+  border:red 2px solid;
+}
