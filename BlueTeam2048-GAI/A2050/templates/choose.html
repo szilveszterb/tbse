@@ -1,0 +1,30 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Secret</title>
+  <meta name="description" content="Secret project">
+  <meta name="author" content="Norbert Balogh">
+
+  <link rel="stylesheet" href="{{url_for('static',filename='master.css')}}">
+  <link rel="stylesheet" href="{{url_for('static',filename='choose.css')}}">
+</head>
+
+<body>
+  <a href="{{url_for('index')}}" class="btn">
+    {% if user.group == 1 %}
+      Spectate
+    {% elif user.group >= 2 %}
+      Play
+    {% endif %}
+  </a>
+  <a href="{{url_for('_session')}}">Session</a>
+  {% if user.group == 3 %}
+  <a href="{{url_for('admin.index')}}" class="btn">
+    Admin panel
+  </a>
+  {% endif %}
+</body>
+</html>

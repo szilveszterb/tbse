@@ -1,0 +1,38 @@
+version: '2'
+
+volumes:
+  db:
+
+services:
+  db:
+    image: mysql
+    container_name: db
+    networks: 
+      - bluenet
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tbse
+    volumes:
+    - db:/var/lib/mysql
+
+  server:
+    build: ./A2050
+    image: server
+    container_name: server
+    networks: 
+      - bluenet
+    restart: always
+    ports:
+      - "5000:5000"
+
+  ai:
+    build: .
+    image: ai
+    container_name: ai
+    networks: 
+      - bluenet
+    volumes:
+    - .:/usr/src/app
+
+networks:
+  bluenet:
