@@ -1,0 +1,24 @@
+table{
+  margin:auto;
+  background-color: #cef6ff;
+  max-width:400px;
+  table-layout: fixed;
+  padding:15px;
+  border-radius: 10px;
+}
+
+td{
+  height: 30px;
+}
+
+.left{
+  text-align: left;
+}
+
+.right{
+  text-align: right;
+}
+
+.center{
+  text-align: center;
+}

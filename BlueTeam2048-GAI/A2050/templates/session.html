@@ -1,0 +1,41 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Secret</title>
+  <meta name="description" content="Secret project">
+  <meta name="author" content="Norbert Balogh">
+
+  <link rel="stylesheet" href="{{url_for('static',filename='master.css')}}">
+  <link rel="stylesheet" href="{{url_for('static',filename='session.css')}}">
+</head>
+
+<body>
+  {% if scores != None %}
+    <h1>Current session scores</h1>
+    <table>
+      <tr>
+        <td>Name</td>
+        <td>Score</td>
+        <td>Games played</td>
+      </tr>
+        {% for name,data in scores.items() %}
+      <tr>
+        <td>{{name}}</td>
+        <td>{{data[0]}}</td>
+        <td>{{data[1]}}</td>
+      </tr>
+        {% endfor %}
+    </table>
+  {% endif %}
+  {% if user.group==3 %}
+    <form method="POST" action="{{url_for('_session')}}">
+      {{form.count}}
+      {{form.submit}}
+      {{form.csrf_token}}
+    </form>
+  {% endif %}
+</body>
+</html>

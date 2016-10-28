@@ -1,0 +1,41 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>A2050</title>
+  <meta name="description" content="A2050">
+  <meta name="author" content="Norbert Balogh">
+  <meta name="id" content="{{session['uid']}}">
+
+
+  <link rel="stylesheet" href="{{url_for('static',filename='master.css')}}">
+  <link rel="stylesheet" href="{{url_for('static',filename='index.css')}}">
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+  <script type="text/javascript" src="{{url_for('static',filename='game.js')}}"></script>
+  {% if not guest %}
+    <script type="text/javascript" src="{{url_for('static',filename='play.js')}}"></script>
+  {% endif %}
+</head>
+
+<body>
+  <h1>A2050</h1>
+  <div id="scores">
+    <table id="scr">
+      <tr>
+        <td>Name</td>
+        <td>Score</td>
+        <td>Games played</td>
+      </tr>
+        {% for name,data in scores.items() %}
+      <tr>
+        <td>{{name}}</td>
+        <td>{{data[0]}}</td>
+        <td>{{data[1]}}</td>
+      </tr>
+        {% endfor %}
+    </table>
+  </div>
+</body>
+</html>
