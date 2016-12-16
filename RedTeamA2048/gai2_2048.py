@@ -26,6 +26,8 @@ STEPS = ["UP", "DOWN", "RIGHT", "LEFT"]
 # will be called every step (generation) of the GA evolution
 def evolve_callback(ga_engine):
     generation = ga_engine.getCurrentGeneration()
+    global current_generation
+    current_generation = generation
     if generation % 100 == 0:
         print "Current generation: %d" % (generation,)
         print ga_engine.getStatistics()
@@ -65,10 +67,11 @@ def eval_func(genome):
         if new_game_state == old_game_state:
             break
 
+    global current_generation
     with open(statistic_file_name, 'a') as f:
-        f.write('{};{};{}\n'.format(game.score, steps, int(math.pow(2, biggest_field))))
+        f.write('{};{};{};{}\n'.format(current_generation, game.score, steps, int(math.pow(2, biggest_field))))
 
-    return game.score
+    return game.score*biggest_field
 
 
 def G1DListTSPInitializator(genome, **args):
@@ -86,8 +89,9 @@ def run_main():
     global statistic_file_name
     statistic_file_name = "gai_statistic_{}.csv".format(int(time.time()))
     with open(statistic_file_name, 'a') as f:
-        f.write('score;steps;biggest_field\n')
-
+        f.write('generation;score;steps;biggest_field\n')
+    global current_generation
+    current_generation = 1
     # par = net.params
     # new_params = numpy.array([1.1 for i in range(0,37)])
 
