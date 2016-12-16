@@ -1,13 +1,11 @@
-from pyevolve import G1DList
-from pyevolve import GSimpleGA, Mutators, Initializators
-from pyevolve import Selectors, GAllele
-from socketIO_client import SocketIO, LoggingNamespace
-import sys
-import time
 import numpy
-from g2048 import logic
 
 from pybrain.tools.shortcuts import buildNetwork
+from pyevolve import G1DList
+from pyevolve import GSimpleGA, Mutators
+from pyevolve import Selectors
+
+from g2048 import logic
 
 DIR_UP = (0, -1)
 DIR_DOWN = (0, 1)
@@ -21,14 +19,16 @@ lkmap = {"UP": DIR_UP, "DOWN": DIR_DOWN, "LEFT": DIR_RIGHT, "RIGHT": DIR_LEFT}
 
 STEPS = ["UP", "DOWN", "RIGHT", "LEFT"]
 
+
 # The step callback function, this function
 # will be called every step (generation) of the GA evolution
 def evolve_callback(ga_engine):
-   generation = ga_engine.getCurrentGeneration()
-   if generation % 100 == 0:
-      print "Current generation: %d" % (generation,)
-      print ga_engine.getStatistics()
-   return False
+    generation = ga_engine.getCurrentGeneration()
+    if generation % 100 == 0:
+        print "Current generation: %d" % (generation,)
+        print ga_engine.getStatistics()
+    return False
+
 
 # This function is the evaluation function, we want
 # to give high score to more zero'ed chromosomes
@@ -61,25 +61,26 @@ def eval_func(genome):
 
     return score
 
-def G1DListTSPInitializator(genome, **args):
-   """ The initializator for the TSP """
 
-   gen = net.params
-   genome.setInternalList(gen)
+def G1DListTSPInitializator(genome, **args):
+    """ The initializator for the TSP """
+
+    gen = net.params
+    genome.setInternalList(gen)
+
 
 def run_main():
 
     global net
     net = buildNetwork(16, 500, 4)
 
-
-    #par = net.params
-    #new_params = numpy.array([1.1 for i in range(0,37)])
+    # par = net.params
+    # new_params = numpy.array([1.1 for i in range(0,37)])
 
     # Genome instance
     genome = G1DList.G1DList(len(net.params))
     genome.setParams(rangemin=-10, rangemax=10)
-    #genome.setParams(allele=setOfAlleles)
+    # genome.setParams(allele=setOfAlleles)
 
     # The evaluator function (objective function)
     genome.evaluator.set(eval_func)
