@@ -1,4 +1,6 @@
+import math
 import numpy
+import time
 
 from pybrain.tools.shortcuts import buildNetwork
 from pyevolve import G1DList
@@ -38,12 +40,12 @@ def eval_func(genome):
 
     game = logic.Game()
     game.new_game()
-    score = 0
+    steps = 0
 
     while(not game.board.game_over()):
         new_game_state = []
         old_game_state = []
-        score += 1
+        steps += 1
         for row in game.board._board:
             old_game_state = old_game_state + list(row)
 
@@ -53,13 +55,20 @@ def eval_func(genome):
         direction = [i for i, j in enumerate(result) if j == ma]
 
         game.shift(lkmap[STEPS[direction[0]]])
+        biggest_field = 0
         for row in game.board._board:
             new_game_state = new_game_state + list(row)
+            for field in row:
+                if field > biggest_field:
+                    biggest_field = field
 
         if new_game_state == old_game_state:
             break
 
-    return score
+    with open(statistic_file_name, 'a') as f:
+        f.write('{};{};{}\n'.format(game.score, steps, int(math.pow(2, biggest_field))))
+
+    return game.score
 
 
 def G1DListTSPInitializator(genome, **args):
@@ -73,6 +82,11 @@ def run_main():
 
     global net
     net = buildNetwork(16, 500, 4)
+
+    global statistic_file_name
+    statistic_file_name = "gai_statistic_{}.csv".format(int(time.time()))
+    with open(statistic_file_name, 'a') as f:
+        f.write('score;steps;biggest_field\n')
 
     # par = net.params
     # new_params = numpy.array([1.1 for i in range(0,37)])
