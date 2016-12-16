@@ -27,7 +27,8 @@ STEPS = ["UP", "DOWN", "RIGHT", "LEFT"]
 def evolve_callback(ga_engine):
     generation = ga_engine.getCurrentGeneration()
     global current_generation
-    current_generation = generation
+    current_generation = generation+1
+    print(current_generation)
     if generation % 100 == 0:
         print "Current generation: %d" % (generation,)
         print ga_engine.getStatistics()
@@ -91,7 +92,7 @@ def run_main():
     with open(statistic_file_name, 'a') as f:
         f.write('generation;score;steps;biggest_field\n')
     global current_generation
-    current_generation = 1
+    current_generation = 0
     # par = net.params
     # new_params = numpy.array([1.1 for i in range(0,37)])
 
@@ -113,6 +114,7 @@ def run_main():
     ga.selector.set(Selectors.GRouletteWheel)
     ga.setGenerations(20000)
     ga.setPopulationSize(20000)
+    ga.setMultiProcessing(True)
     ga.stepCallback.set(evolve_callback)
 
     # Do the evolution
